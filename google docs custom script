@@ -1,0 +1,63 @@
+please read how to use the below here in your google docs:
+https://aigrowthguys.com/how-i-built-an-automatic-affiliate-linking-tool-with-chatgpt-no-code/
+
+
+function onOpen() {
+  var ui = DocumentApp.getUi();
+  ui.createMenu('My Custom Scripts')
+    .addItem('Insert Affiliate Links', 'insertAffiliateLinks')
+    .addToUi();
+}
+
+
+function insertAffiliateLinks() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+ 
+  // Define your keywords and corresponding affiliate links
+  var links = {
+    '11 Labs': 'https://elevenlabs.io/?from=partnermeyer5644',
+    'HeyGen': 'https://heygen.com/?sid=rewardful&via=andrew-best',
+    'Mangools': 'https://mangools.com#a57df4ec7285f734f44889a97',
+    'TubeBuddy': 'https://www.tubebuddy.com/pricing?a=andrewbest',
+    'Skool': 'https://www.skool.com/refer?ref=97d294e27b5b4519847e464d4c6eb947',
+    'Beehiiv': 'https://www.beehiiv.com?via=andrew-best',
+    'Stammer.ai': 'https://stammer.ai/?via=andrew',
+    'Exploding Topics': 'https://explodingtopics.com/?via=andrew-best',
+    'Apollo': 'https://apollo.partnerlinks.io/6upajoxr847f',
+    'Riverside': 'https://www.riverside.fm?via=andrew-best',
+    'Repurpose.io': 'https://repurpose.io/?aff=256322',
+    'vidIQ.com': 'https://vidiq.com/aigrowthguys',
+    'ConvertKit': 'https://convertkit.com/?lmref=DSxnZA',
+    'Go High Level': 'https://www.gohighlevel.com/?fp_ref=hcbyk',
+    'Partnerstack': 'https://buy.partnerstackprm.com/927y2duoum3i',
+    'CreativeFuel.ai': 'https://creativefuel.ai?via=andrew',
+    'Rewardful': 'https://www.getrewardful.com/?via=andrew-best',
+    'Tapfiliate': 'https://tapfiliate.com/?ref=mjk2ndr'
+  };
+
+
+  // Iterate over each word-URL pair
+  Object.keys(links).forEach(function(word) {
+    var url = links[word];
+    var foundElement = body.findText(word);
+
+
+    while (foundElement != null) {
+      var foundText = foundElement.getElement().asText();
+
+
+      // Get the start and end indices of the word
+      var startOffset = foundElement.getStartOffset();
+      var endOffset = foundElement.getEndOffsetInclusive();
+
+
+      // Set the link URL for the word
+      foundText.setLinkUrl(startOffset, endOffset, url);
+
+
+      // Find the next occurrence of the word
+      foundElement = body.findText(word, foundElement);
+    }
+  });
+}
